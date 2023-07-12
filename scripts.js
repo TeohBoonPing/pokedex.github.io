@@ -44,9 +44,7 @@ function fetchPokemonDetails(urls) {
     .then(() => {
         const pokemonContainer = document.getElementById("pokemon-column");
 
-        const pokemonTypesMapper = {
-            
-        }
+        const pokemonTypesMapper = {}
 
 
         for (const pokemon of pokemonDetailsObj.sort((a,b) => a.id - b.id)) {

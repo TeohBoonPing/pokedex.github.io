@@ -16,6 +16,11 @@ body {
     border: transparent !important;
 }
 
+.card-title {
+    font-size: 25px !important;
+    text-transform: capitalize;
+}
+
 .card-body > h5 {
     color: aliceblue !important;
 }
