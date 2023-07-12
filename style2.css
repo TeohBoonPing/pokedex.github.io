@@ -13,8 +13,8 @@ body {
 
 .card {
     background-color: transparent !important;
+    border: transparent !important;
 }
-
 
 .card-body > h5 {
     color: aliceblue !important;
@@ -50,6 +50,13 @@ body {
     cursor: pointer;
 }
 
+.scale {
+    text-align: center;
+    font-size: 20px;
+    color: aliceblue;
+    text-transform: uppercase;
+    margin: 10px;
+}
 
 .bug {
     background: #92BC2C;
