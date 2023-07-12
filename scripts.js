@@ -64,7 +64,10 @@ async function fetchAndPopulatePokemon() {
                         <h5 class="card-title text-center">${pokemon.name}</h5>
                         <div class="d-flex flex-row justify-content-center">
                         ${pokemon.types
-                            .map(type => `<div class="icon ${type.type.name} p-2"><img src="assets/pokemon-type-icons/${type.type.name}.svg" /></div>`)
+                            .map(type => `
+                                <div class="icon ${type.type.name} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(type.type.name)}">
+                                    <img class="tooltip-type" src="assets/pokemon-type-icons/${type.type.name}.svg"/>
+                                </div>`)
                             .join('')}
                         </div>
                         <div class="d-flex flex-row justify-content-center">
@@ -91,4 +94,15 @@ function convertHeightFromDecimetersToMeters(heightInDecimeters) {
     return heightInMeters;
 }  
 
+function initializeTooltips() {
+    $(document).ready(function() {
+      $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
+}
+
+function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 fetchAndPopulatePokemon();
+initializeTooltips();
