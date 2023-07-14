@@ -1,11 +1,11 @@
 function convertWeightFromHectogramsToKilograms (weightInHectograms) {
-  const weightInKilograms = (weightInHectograms / 10).toFixed(2)
+  const weightInKilograms = (weightInHectograms / 10)
   return weightInKilograms
 }
 
-function convertHeightFromDecimetersToMeters (heightInDecimeters) {
-  const heightInMeters = (heightInDecimeters / 10).toFixed(2)
-  return heightInMeters
+function convertHeightFromDecimetersToCentimeters (heightInDecimeters) {
+  const heightInCentimeters = heightInDecimeters * 10;
+  return heightInCentimeters;
 }
 
 function capitalizeFirstLetter (str) {
@@ -46,7 +46,7 @@ function clearContainer(container) {
 function createPokemonElement(pokemon) {
   const pokemonDiv = document.createElement("div");
   const pokemonWeight = convertWeightFromHectogramsToKilograms(pokemon.weight);
-  const pokemonHeight = convertHeightFromDecimetersToMeters(pokemon.height);
+  const pokemonHeight = convertHeightFromDecimetersToCentimeters(pokemon.height);
   pokemonDiv.className = "col-lg-4 col-md-6 col-12";
   pokemonDiv.innerHTML = `
     <div class="card">
@@ -65,7 +65,7 @@ function createPokemonElement(pokemon) {
             </div>
             <div class="d-flex flex-row justify-content-center">
                 <div class="scale"><i class="fa-solid fa-weight-scale"></i> ${pokemonWeight} kg </div>
-                <div class="scale"><i class="fa-solid fa-ruler-vertical"></i> ${pokemonHeight} m </div>
+                <div class="scale"><i class="fa-solid fa-ruler-vertical"></i> ${pokemonHeight} cm </div>
             </div>
         </div>
     </div>
