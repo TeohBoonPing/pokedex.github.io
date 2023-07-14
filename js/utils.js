@@ -23,7 +23,7 @@ function checkScrollEnd () {
   const bodyHeight = document.body.offsetHeight
 
   if (scrollPosition >= bodyHeight) {
-    fetchAndPopulatePokemon()
+    fetchAndPopulatePokemon(limit, "")
   }
 }
 
