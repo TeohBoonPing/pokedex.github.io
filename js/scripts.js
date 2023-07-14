@@ -108,10 +108,11 @@ async function fetchAndPopulatePokemon(limit, searchInput) {
 
     const pokemonObj = await fetchAndProcessPokemonData(searchInput);
     const pokemonContainer = document.getElementById("pokemon-column");
-
-    clearContainer(pokemonContainer);
-
     const fragment = document.createDocumentFragment();
+
+    if (searchInput) {
+      clearContainer(pokemonContainer);
+    }
 
     for (const pokemon of pokemonObj) {
       const pokemonDiv = createPokemonElement(pokemon);
