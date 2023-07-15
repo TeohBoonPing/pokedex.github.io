@@ -49,7 +49,7 @@ function createPokemonElement(pokemon) {
   const pokemonHeight = convertHeightFromDecimetersToCentimeters(pokemon.height);
   pokemonDiv.className = "col-lg-4 col-md-6 col-12";
   pokemonDiv.innerHTML = `
-    <div class="card">
+    <div class="shadow card">
         <div class="text-center">
             <img src="${pokemon.sprites}" class="card-img-top sprites" alt="${pokemon.name}"">
         </div>
