@@ -18,12 +18,12 @@ function initializeTooltips () {
   })
 }
 
-function checkScrollEnd () {
-  const scrollPosition = window.innerHeight + window.pageYOffset
-  const bodyHeight = document.body.offsetHeight
+function checkScrollEnd() {
+  const scrollPosition = window.innerHeight + window.pageYOffset;
+  const bodyHeight = document.body.offsetHeight;
 
-  if (scrollPosition >= bodyHeight) {
-    fetchAndPopulatePokemon(limit, "")
+  if (scrollPosition >= bodyHeight && !loadingMore) {
+    fetchAndPopulatePokemon(limit, "");
   }
 }
 

@@ -2,6 +2,9 @@ let loadingMore = false;
 let offset = 0;
 const limit = 20;
 let isSearchPerformed = false;
+const fuse = new Fuse([], {
+  keys: ['name'],
+});
 
 async function fetchPokemonByName(name) {
   if(typeof name !== "string" || name.trim().length === 0) {
@@ -50,26 +53,21 @@ async function fetchPokemons(offset, limit) {
   }
 }
 
-async function fetchAndProcessPokemonData(searchInput) {
-  if(typeof searchInput !== "string") {
+async function fetchAndProcessPokemonData(searchInput, fuse) {
+  if (typeof searchInput !== "string") {
     throw new Error('Invalid search input');
   }
 
-  if (!searchInput) {
-    try {
+  try {
+    if (!searchInput) {
       const pokemons = await fetchPokemons(offset, limit);
       const pokemonPromises = pokemons.map(pokemon => fetchPokemonByName(pokemon.name));
-      const pokemonData = await Promise.all(pokemonPromises);
-      return pokemonData.map(pokemon => processPokemon(pokemon));
-    } catch (error) {
-      throw error;
+      return await Promise.all(pokemonPromises);
     }
-  }
 
-  isSearchPerformed = true;
-  try {
+    isSearchPerformed = true;
     const pokemon = await fetchPokemonByName(searchInput);
-    return pokemon ? [processPokemon(pokemon)] : [];
+    return pokemon ? [pokemon] : [];
   } catch (error) {
     throw error;
   }
@@ -78,22 +76,33 @@ async function fetchAndProcessPokemonData(searchInput) {
 const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('searchInput');
 
-searchForm.addEventListener('submit', handleSearchFormSubmit);
+searchInput.addEventListener('input', handleSearchInputChange);
 
-function handleSearchFormSubmit(event) {
-  event.preventDefault();
-  
-  // because the name is lowercase in pokeapi
-  const searchQuery = searchInput.value.trim().toLowerCase();
+function handleSearchInputChange(event) {
+  const searchQuery = event.target.value.trim().toLowerCase();
   offset = 0;
   isSearchPerformed = false;
-  fetchAndPopulatePokemon(limit, searchQuery);  
+
+  if (searchQuery === "") {
+    clearContainer(document.getElementById("pokemon-column"));
+    fetchAndPopulatePokemon(limit, null); // Fetch and populate all Pokémon
+    return;
+  }
+
+  fetchAndPopulatePokemon(limit, searchQuery);
+
+  // Remove the scroll event listener during instant search
+  window.removeEventListener("scroll", checkScrollEnd);
 }
 
 async function fetchAndPopulatePokemon(limit, searchInput) {
   try {
-    if (loadingMore || isSearchPerformed) {
-      return;
+    if (isSearchPerformed && !searchInput) {
+      clearContainer(document.getElementById("pokemon-column"));
+      offset = 0;
+      isSearchPerformed = false;
+      loadingMore = false;
+      fuse.setCollection([]); // Clear the Fuse.js collection
     }
 
     if (typeof limit !== "number" || limit <= 0) {
@@ -106,29 +115,43 @@ async function fetchAndPopulatePokemon(limit, searchInput) {
 
     loadingMore = true;
 
-    const pokemonObj = await fetchAndProcessPokemonData(searchInput);
+    let pokemonData = [];
+    
+    if (searchInput) {
+      pokemonData = await fetchAndProcessPokemonData(searchInput, fuse);
+    } else {
+      const pokemons = await fetchPokemons(offset, limit);
+      const pokemonPromises = pokemons.map(pokemon => fetchPokemonByName(pokemon.name));
+      pokemonData = await Promise.all(pokemonPromises);
+    }
+
+    fuse.setCollection(pokemonData);
+
+    const searchResults = searchInput ? fuse.search(searchInput).map(result => result.item) : pokemonData;
+
     const pokemonContainer = document.getElementById("pokemon-column");
     const fragment = document.createDocumentFragment();
 
     if (searchInput) {
       clearContainer(pokemonContainer);
+      offset = 0; // Reset the offset for search results
     }
 
-    for (const pokemon of pokemonObj) {
-      const pokemonDiv = createPokemonElement(pokemon);
+    for (const pokemon of searchResults) {
+      const pokemonDiv = createPokemonElement(processPokemon(pokemon));
       fragment.appendChild(pokemonDiv);
     }
 
     pokemonContainer.appendChild(fragment);
 
-    offset += limit;
     loadingMore = false;
 
     if (searchInput) {
       // Reset the flag after search is complete
-      isSearchPerformed = true;
+      isSearchPerformed = false;
+    } else {
+      offset += limit; // Increment offset for loading more
     }
-
   } catch (error) {
     loadingMore = false;
     throw error;
