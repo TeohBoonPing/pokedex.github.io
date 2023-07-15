@@ -51,7 +51,7 @@ function createPokemonElement(pokemon) {
   pokemonDiv.innerHTML = `
     <div class="card">
         <div class="text-center">
-            <img src="${pokemon.sprites}" class="card-img-top sprites" alt="${pokemon.name}">
+            <img src="${pokemon.sprites}" class="card-img-top sprites" alt="${pokemon.name}"">
         </div>
         <div class="card-body">
             <h5 class="card-title text-center">${pokemon.name}</h5>

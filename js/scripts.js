@@ -159,4 +159,3 @@ async function fetchAndPopulatePokemon(limit, searchInput) {
 }
 
 fetchAndPopulatePokemon(limit, "");
-
