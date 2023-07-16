@@ -259,15 +259,14 @@ hr {
 }
 .evolution-arrow {
     font-size:40px;
-    font-weight: bolder;
 }
 .arrows {
-    margin-top: 25px !important;
     vertical-align: middle !important;
 }
 @media (max-width: 767px) {
     .evolution-title {
         font-size:22px;
+        margin-bottom: 10px;
     }
     .evolution-arrow {
       font-size: 35px;

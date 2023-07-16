@@ -240,8 +240,8 @@ export async function createPokemonDetailsElement(pokemon) {
                           ${index !== arr.length - 1 ? `
                             <div class="col-12 col-md-1 arrows">
                               <div class="text-center align-middle">
-                                <i class="bi bi-arrow-right evolution-arrow d-none d-md-inline" style="color: ${typeColour}"></i>
-                                <i class="bi bi-arrow-down evolution-arrow d-inline d-md-none" style="color: ${typeColour} !important"></i>
+                                <i class="fa-solid fa-right-long evolution-arrow d-none d-md-inline" style="color: ${typeColour}"></i>
+                                <i class="fa-solid fa-down-long evolution-arrow d-inline d-md-none" style="color: ${typeColour} !important"></i>
                               </div>                            
                             </div>
                           ` : ''}
