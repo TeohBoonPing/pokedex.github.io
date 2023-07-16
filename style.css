@@ -199,7 +199,7 @@ hr {
     display: block;
     margin: 0 auto;
     position: absolute;
-    top: 5%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -65%);
     z-index: 1;
@@ -220,6 +220,7 @@ hr {
     .bottom-image {
         width: 180%;
         left: 50%;
+        top: 5%;
         transform: translateX(-50%);
     }
 }
