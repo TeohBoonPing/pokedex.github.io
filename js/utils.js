@@ -163,7 +163,7 @@ export function createPokemonDetailsElement(pokemon) {
       <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
       <center>
           <div class="col-4 pokemon-profile">
-              <div class="image-container">
+              <div class=" image-container">
                   <img class="pokemon-image top-image" src="${pokemonSprites}" alt="...">
                   <img class="pokemon-image bottom-image" src="assets/pokeball.png" alt="...">
               </div>
