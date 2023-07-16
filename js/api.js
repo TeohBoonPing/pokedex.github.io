@@ -155,6 +155,80 @@ export async function fetchAndDisplayPokemonDetails(name) {
     }
 }
 
+export async function fetchPokemonSpecies(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch Pokémon species");
+    }
+    return await response.json();
+}
+
+export async function fetchPokemonEvolution(name) {
+    if (typeof name !== "string" || name.trim().length === 0) {
+      throw new Error("Invalid name parameter");
+    }
+  
+    try {
+      const pokemonData = await fetchPokemonByName(name.toLowerCase());
+  
+      const speciesUrl = pokemonData.species.url;
+      const speciesData = await fetchPokemonSpecies(speciesUrl);
+  
+      const evolutionChainUrl = speciesData.evolution_chain.url;
+      const evolutionData = await fetchEvolutionChain(evolutionChainUrl);
+  
+      const evolutionChain = await fetchEvolutionChainSprites(evolutionData.chain);
+  
+      const evolution = {
+        name: name,
+        evolutionChain: evolutionChain,
+      };
+  
+      return evolution;
+    } catch (error) {
+      console.error("Failed to fetch pokemon:", error);
+      throw error;
+    }
+}
+
+export async function fetchEvolutionChain(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch Pokémon evolution chain");
+    }
+    return await response.json();
+}
+
+export async function fetchEvolutionChainSprites(chain) {
+    const evolutionChain = [];
+
+    const fetchSprites = async (speciesName) => {
+        try {
+        const pokemonData = await fetchPokemonByName(speciesName);
+        const spriteUrl = pokemonData.sprites?.other.home.front_default;
+        return spriteUrl;
+        } catch (error) {
+        console.error(`Failed to fetch sprites for ${speciesName}:`, error);
+        return null;
+        }
+    };
+
+    const processChain = async (chain) => {
+        const speciesName = chain.species.name;
+        const spriteUrl = await fetchSprites(speciesName);
+
+        evolutionChain.push({ name: speciesName, sprite: spriteUrl });
+
+        for (const nextChain of chain.evolves_to) {
+        await processChain(nextChain);
+        }
+    };
+
+    await processChain(chain);
+
+return evolutionChain;
+}
+
 window.fetchPokemonByName = fetchPokemonByName;
 window.fetchPokemons = fetchPokemons;
 window.fetchAndProcessPokemonData = fetchAndProcessPokemonData;

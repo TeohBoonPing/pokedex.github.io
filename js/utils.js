@@ -1,6 +1,6 @@
 import {
   fetchAndPopulatePokemon,
-  
+  fetchPokemonEvolution,
 } from './api.js'
 
 export const limit = 20;
@@ -151,20 +151,15 @@ export function getColourByPokemonType(type) {
   return foundType ? foundType.color : null;
 }
 
-export function setActiveButtonBackground(typeColour) {
-  const activeButton = document.querySelector('.nav-link.active');
-  if (activeButton) {
-    activeButton.style.backgroundColor = typeColour;
-  }
-}
-
-export function createPokemonDetailsElement(pokemon) {
+export async function createPokemonDetailsElement(pokemon) {
     const pokemonDetailsContainer = document.getElementById('pokemonDetails');
     const pokemonSprites = pokemon.sprites.other.home.front_default;
     const pokemonStats = extractStatsFromData(pokemon.stats);
     const maxStatValue = Math.max(...Object.values(pokemonStats));
     const typeColour = getColourByPokemonType(pokemon.types[0].type.name);
 
+    const evolutionData = await fetchPokemonEvolution(pokemon.name);
+   
     pokemonDetailsContainer.innerHTML = `
     <div class="col-md-12" style="margin-top:30px;">
       <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
@@ -181,7 +176,10 @@ export function createPokemonDetailsElement(pokemon) {
     <div class="col-md-12">
       <ul class="nav nav-pills mb-3 mt-3 pokemon-pills-tab" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link ${setActiveButtonBackground(typeColour)}" style="background-color:${typeColour};" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab" aria-controls="pills-stats" aria-selected="true">Stats</button>
+          <button class="nav-link active" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab" aria-controls="pills-stats" aria-selected="true">Stats</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-evolutions-tab" data-bs-toggle="pill" data-bs-target="#pills-evolutions" type="button" role="tab" aria-controls="pills-evolutions" aria-selected="true">Evolutions</button>
         </li>
       </ul>
       <div class="tab-content" id="pills-tabContent">
@@ -217,6 +215,40 @@ export function createPokemonDetailsElement(pokemon) {
                 <label class="form-label">Special Attack</label>
                 <div class="progress" role="progressbar">
                   <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-attack"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-attack"], maxStatValue)}%">${pokemonStats["special-attack"]}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-evolutions" role="tabpanel" aria-labelledby="pills-evolutions-tab" tabindex="0">
+          <div class="card">
+            <div class="card-body">
+              <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                      <div class="row row-cols-1 row-cols-md-5 justify-content-between align-items-center">
+                      ${evolutionData.evolutionChain
+                        .map((evolution, index, arr) => `
+                          <div class="col-12 col-sm-12 col-md-3">
+                            <div class="card">
+                              <div class="text-center">
+                                <img style="max-width:250px; border: 4px solid ${evolution.name === pokemon.name ? typeColour : 'gray'};" src="${evolution.sprite}" class="evolution-sprite" alt="...">
+                              </div>
+                              <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
+                            </div>
+                          </div>
+                          ${index !== arr.length - 1 ? `
+                            <div class="col-12 col-md-1 arrows">
+                              <div class="text-center align-middle">
+                                <i class="bi bi-arrow-right evolution-arrow d-none d-md-inline" style="color: ${typeColour}"></i>
+                                <i class="bi bi-arrow-down evolution-arrow d-inline d-md-none" style="color: ${typeColour} !important"></i>
+                              </div>                            
+                            </div>
+                          ` : ''}
+                        `)
+                        .join('')}
+                      </div>
+                    </div>
                 </div>
               </div>
             </div>
