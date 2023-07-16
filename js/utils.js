@@ -179,7 +179,7 @@ export function createPokemonDetailsElement(pokemon) {
       </center>
     </div>
     <div class="col-md-12">
-      <ul class="nav nav-pills mb-3 pokemon-pills-tab" id="pills-tab" role="tablist">
+      <ul class="nav nav-pills mb-3 mt-3 pokemon-pills-tab" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link ${setActiveButtonBackground(typeColour)}" style="background-color:${typeColour};" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab" aria-controls="pills-stats" aria-selected="true">Stats</button>
         </li>
