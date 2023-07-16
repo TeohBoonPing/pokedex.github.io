@@ -226,13 +226,13 @@ export async function createPokemonDetailsElement(pokemon) {
               <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                      <div class="row row-cols-1 row-cols-md-5 justify-content-between align-items-center">
+                      <div class="row row-cols-1 row-cols-md-5 justify-content-center align-items-center">
                       ${evolutionData.evolutionChain
                         .map((evolution, index, arr) => `
                           <div class="col-12 col-sm-12 col-md-3">
                             <div class="card">
                               <div class="text-center">
-                                <img style="max-width:250px; border: 4px solid ${evolution.name === pokemon.name ? typeColour : 'gray'};" src="${evolution.sprite}" class="evolution-sprite" alt="...">
+                                <img style="max-width:250px; border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};" src="${evolution.sprite}" class="evolution-sprite" alt="...">
                               </div>
                               <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
                             </div>
