@@ -193,35 +193,41 @@ hr {
     display: flex;
     justify-content: center;
 }
-.image-container {
-    position: relative;
+.top-image {
     width: 100%;
     height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -65%);
+    z-index: 1;
 }
+
+.bottom-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+    transform: translateX(-50%);
+    position: relative;
+    left: 50%;
+}
+
+@media (max-width: 767px) {
+    .top-image,
+    .bottom-image {
+        width: 180%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
 
 .pokemon-image {
     width: 290px;
     height: auto;
-}
-
-.top-image {
-    position: absolute;
-    top: 38%;
-    left: 50%;
-    right: 50%;
-    width: 280px;
-    transform: translate(-50%, -50%);
-    z-index:1;
-}
-
-.bottom-image {
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    width: 280px;
-    margin-top: 10px;
 }
 .pokemon-name {
     font-size: 25px;
