@@ -160,7 +160,7 @@ export function createPokemonDetailsElement(pokemon) {
     
     pokemonDetailsContainer.innerHTML = `
     <div class="col-md-12" style="margin-top:30px; margin-bottom:30px;">
-      <a class="back" href="index.html"><i class="bi bi-arrow-left-circle-fill"></i></a>
+      <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
       <center>
           <div class="col-4 pokemon-profile">
               <div class="image-container">
