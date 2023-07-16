@@ -12,37 +12,15 @@
 
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
-
     <title>Pokedex</title>
   </head>
-  <body>
-    <nav class="navbar" id="nav-logos">
-      <div class="container"><a class="navbar-brand" href="index.html"><img src="assets/pokemon-title.svg"></a>
-        <div class="d-flex gap-3">
-          <a href="https://www.linkedin.com/in/boonpingteoh/" target="_blank">
-            <img src="assets/logos/linkedin.svg" />
-          </a>
-          <a href="https://github.com/TeohBoonPing/pokedex" target="_blank">
-            <img src="assets/logos/github.svg" />
-          </a>
-        </div>
-      </div>
-    </nav>
-    
+  <body>  
     <section>
         <div class="container">
-          <center>
-            <img src="assets/logos/pokedex.svg"/>
-            <form id="searchForm">
-              <label class="search-title">Find a Pokemon by name or National Dex number</label>
-              <div class="input-group mb-3 search-input-group">
-                <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search Pokemon" autocomplete="off">
-              </div>
-            </form>
-          </center>
-          <div class="row gy-5" id="pokemon-column"></div>
+            <div class="row" id="pokemonDetails"></div>
         </div>          
     </section>
+    
     <script type="module" src="js/api.js"></script>
     <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/main.js"></script>
