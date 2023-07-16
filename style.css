@@ -9,7 +9,6 @@ body {
     filter: invert(100%);
 }
 .card {
-    margin: 10px;
     background-color: #2c2b2b !important;
     border-radius: 20px !important;
     border: transparent !important;
