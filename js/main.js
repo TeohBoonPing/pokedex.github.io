@@ -6,26 +6,22 @@ import {
     limit,
     handleSearchInputChange,
     checkScrollEnd,
-  } from './utils.js';
+} from './utils.js';
 
-  console.log(window.location.pathname)
-if(window.location.pathname === '/index.html') {
+const domain = window.location.pathname.split('/')[1];
+const currentPageURL = window.location.pathname;
+
+if (currentPageURL === `/${domain}/` || currentPageURL === '/index.html') {
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', handleSearchInputChange);    
+    searchInput.addEventListener('input', handleSearchInputChange);
     window.addEventListener('scroll', checkScrollEnd);
-    console.log("window.location.pathname")
     fetchAndPopulatePokemon(limit, "");
 }
 
-const currentPageURL = window.location.href;
-
-if(currentPageURL.includes("details.html")) {
+if (currentPageURL.startsWith(`/${domain}/details.html`) || currentPageURL === '/details.html') {
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get("name");
-    if(name) {
+    if (name) {
         fetchAndDisplayPokemonDetails(name);
     }
 }
-
-
-

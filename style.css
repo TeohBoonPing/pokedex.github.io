@@ -249,6 +249,17 @@ hr {
     width: 330px;
     margin-top: 10px;
 }
+
+/* Responsive styles for mobile devices */
+@media (max-width: 767px) {
+    .top-image,
+    .bottom-image {
+      width: 100%;
+      max-width: 330px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+}
   
 .pokemon-name {
     font-size: 25px;
