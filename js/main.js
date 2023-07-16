@@ -8,10 +8,9 @@ import {
     checkScrollEnd,
   } from './utils.js';
 
-if(window.location.pathname === '/') {
+if(window.location.pathname === '/index.html') {
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', handleSearchInputChange);
-
+    searchInput.addEventListener('input', handleSearchInputChange);    
     window.addEventListener('scroll', checkScrollEnd);
     fetchAndPopulatePokemon(limit, "");
     
