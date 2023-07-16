@@ -8,9 +8,7 @@ import {
     checkScrollEnd,
   } from './utils.js';
 
-const currentPageURL = window.location.href;
-
-if(currentPageURL.includes("index.html")) {
+if(window.location.pathname === '/') {
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', handleSearchInputChange);
 
@@ -18,6 +16,8 @@ if(currentPageURL.includes("index.html")) {
     fetchAndPopulatePokemon(limit, "");
     
 }
+
+const currentPageURL = window.location.href;
 
 if(currentPageURL.includes("details.html")) {
     const urlParams = new URLSearchParams(window.location.search);
