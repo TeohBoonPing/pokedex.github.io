@@ -203,7 +203,6 @@ hr {
     transform: translate(-50%, -65%);
     z-index: 1;
 }
-
 .bottom-image {
     width: 100%;
     height: auto;
@@ -213,7 +212,6 @@ hr {
     position: relative;
     left: 50%;
 }
-
 @media (max-width: 767px) {
     .top-image,
     .bottom-image {
@@ -223,8 +221,6 @@ hr {
         transform: translateX(-50%);
     }
 }
-
-
 .pokemon-image {
     width: 290px;
     height: auto;
@@ -245,4 +241,12 @@ hr {
     text-transform: uppercase;
     font-family: 'Ubuntu';
     margin-top: 10px;
+}
+.pokemon-pills-tab {
+    font-size: 20px;
+    font-family: 'Ubuntu';
+}
+.nav-link {
+    color: white !important;
+    border-radius: 20px !important;
 }
