@@ -166,7 +166,7 @@ export function createPokemonDetailsElement(pokemon) {
     const typeColour = getColourByPokemonType(pokemon.types[0].type.name);
 
     pokemonDetailsContainer.innerHTML = `
-    <div class="col-md-12" style="margin-top:30px; margin-bottom:30px;">
+    <div class="col-md-12" style="margin-top:30px;">
       <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
       <center>
           <div class="col-4 pokemon-profile">
