@@ -11,7 +11,7 @@ import {
 const domain = window.location.pathname.split('/')[1];
 const currentPageURL = window.location.pathname;
 
-if (currentPageURL === `/${domain}/` || currentPageURL === '/index.html') {
+if (currentPageURL === `/${domain}/` || (currentPageURL === '/' || currentPageURL === '/index.html')) {
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', handleSearchInputChange);
     window.addEventListener('scroll', checkScrollEnd);
