@@ -193,7 +193,7 @@ hr {
     justify-content: center;
 }
 .top-image {
-    width: 100%;
+    width: 250px !important;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -204,7 +204,7 @@ hr {
     z-index: 1;
 }
 .bottom-image {
-    width: 100%;
+    width: 250px !important;
     height: auto;
     display: block;
     margin-top: 10px;
@@ -215,7 +215,6 @@ hr {
 @media (max-width: 767px) {
     .top-image,
     .bottom-image {
-        width: 180%;
         left: 50%;
         top: 5%;
         transform: translateX(-50%);
