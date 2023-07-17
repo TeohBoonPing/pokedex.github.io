@@ -243,7 +243,7 @@ export async function createPokemonDetailsElement(pokemon) {
                 <div class="col-md-6">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title mb-3">Weaknesses</h5>
+                      <h5 class="card-title mb-3">${pokemonWeaknesses.length > 1 ? 'Weaknesses' : 'Weakness'}</h5>
                       <div class="row row-cols-1 row-cols-md-4">
                         ${pokemonWeaknesses.map((weakness) => `
                         <div class="col-3 col-md-3 col-lg-2">
@@ -259,7 +259,7 @@ export async function createPokemonDetailsElement(pokemon) {
                 <div class="col-md-6">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title mb-3">Strengths</h5>
+                      <h5 class="card-title mb-3">${pokemonStrengths.length > 1 ? 'Strengths' : 'Strength'}</h5>
                       <div class="row row-cols-1 row-cols-md-4">
                         ${pokemonStrengths.map((strength) => `
                         <div class="col-3 col-md-3 col-lg-2">
