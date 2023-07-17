@@ -1,5 +1,8 @@
 import {
     processPokemon,
+    createPokemonElement,
+    clearContainer,
+    createPokemonDetailsElement,
 } from './utils.js';
 
 export let offset = 0;
