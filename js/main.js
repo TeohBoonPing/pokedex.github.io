@@ -15,7 +15,9 @@ const currentPageURL = window.location.pathname;
 
 if (currentPageURL === `/${domain}/` || (currentPageURL === '/' || currentPageURL === '/index.html')) {
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', handleSearchInputChange);
+    if(searchInput) {
+        searchInput.addEventListener('input', handleSearchInputChange);
+    }
     window.addEventListener('scroll', checkScrollEnd);
     initializeTooltips();
     fetchAndPopulatePokemon(limit, "");
@@ -27,5 +29,7 @@ if (currentPageURL.startsWith(`/${domain}/details.html`) || currentPageURL === '
     if (name) {
         initializeTooltips();
         fetchAndDisplayPokemonDetails(name);
+    } else {
+        console.error("Pokemon name is missing");
     }
 }

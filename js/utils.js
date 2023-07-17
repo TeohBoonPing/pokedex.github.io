@@ -1,4 +1,5 @@
 import {
+  loadingMore,
   fetchAndPopulatePokemon,
   fetchPokemonEvolution,
   fetchPokemonDescriptionByName,
