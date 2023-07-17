@@ -1,4 +1,5 @@
 import {
+  loadingMore,
   fetchAndPopulatePokemon,
   fetchPokemonEvolution,
   fetchPokemonDescriptionByName,
@@ -9,7 +10,7 @@ import {
 
 export const limit = 20;
 
-export const pokemonTypeColors = [
+const pokemonTypeColors = [
   { name: "bug", color: "#7bcf00" },
   { name: "dark", color: "#5a566a" },
   { name: "dragon", color: "#0076ff" },
@@ -30,17 +31,17 @@ export const pokemonTypeColors = [
   { name: "water", color: "#14a8ff" },
 ];
 
-export function convertWeightFromHectogramsToKilograms (weightInHectograms) {
+function convertWeightFromHectogramsToKilograms (weightInHectograms) {
   const weightInKilograms = (weightInHectograms / 10)
   return weightInKilograms
 }
 
-export function convertHeightFromDecimetersToCentimeters (heightInDecimeters) {
+function convertHeightFromDecimetersToCentimeters (heightInDecimeters) {
   const heightInCentimeters = heightInDecimeters * 10;
   return heightInCentimeters;
 }
 
-export function capitalizeFirstLetter (str) {
+function capitalizeFirstLetter (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
@@ -122,7 +123,7 @@ export function createPokemonElement(pokemon) {
   return pokemonDiv;
 }
 
-export function extractStatsFromData(data) {
+function extractStatsFromData(data) {
   const stats = {}
   data.forEach((stat) => {
       const statName = stat.stat.name;
@@ -133,11 +134,11 @@ export function extractStatsFromData(data) {
   return stats;
 }
 
-export function calculateProgressBarWidth(value, maxValue) {
+function calculateProgressBarWidth(value, maxValue) {
   return (value / maxValue) * 100;
 }
 
-export function getProgressBarColorByValue(value) {
+function getProgressBarColorByValue(value) {
   const threshold = 50;
   const colorLookup = {
     'bg-danger': value < threshold,
@@ -148,7 +149,7 @@ export function getProgressBarColorByValue(value) {
   return Object.keys(colorLookup).find(color => colorLookup[color]);
 }
 
-export function getColourByPokemonType(type) {
+function getColourByPokemonType(type) {
   const foundType = pokemonTypeColors.find(
     pokemonType => pokemonType.name === type
   );
@@ -351,14 +352,3 @@ export async function createPokemonDetailsElement(pokemon) {
     </div>
   </div>`;
 }
-
-window.clearContainer = clearContainer;
-window.createPokemonElement = createPokemonElement;
-window.createPokemonDetailsElement = createPokemonDetailsElement;
-window.convertWeightFromHectogramsToKilograms = convertWeightFromHectogramsToKilograms;
-window.convertHeightFromDecimetersToCentimeters = convertHeightFromDecimetersToCentimeters;
-window.capitalizeFirstLetter = capitalizeFirstLetter;
-window.checkScrollEnd = checkScrollEnd
-window.handleSearchInputChange = handleSearchInputChange;
-window.limit = limit;
-window.initializeTooltips = initializeTooltips;
