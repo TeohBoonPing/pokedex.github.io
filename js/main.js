@@ -1,5 +1,6 @@
 import { 
     fetchAndPopulatePokemon, 
+    fetchAndDisplayPokemonDetails
 } from './api.js';
 
 import {

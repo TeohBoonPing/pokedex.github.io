@@ -354,11 +354,3 @@ async function fetchTypeStrengths(types) {
         throw error;
     }
 }
-
-window.fetchAndDisplayPokemonDetails = fetchAndDisplayPokemonDetails;
-window.loadingMore = loadingMore;
-window.offset = offset;
-window.fetchPokemonDescriptionByName = fetchPokemonDescriptionByName;
-window.fetchPokemonGenderByName = fetchPokemonGenderByName;
-window.fetchPokemonWeaknessesByName = fetchPokemonWeaknessesByName;
-window.fetchPokemonStrengthsByName = fetchPokemonStrengthsByName;
