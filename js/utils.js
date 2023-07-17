@@ -247,7 +247,7 @@ export async function createPokemonDetailsElement(pokemon) {
                       <div class="row row-cols-1 row-cols-md-4">
                         ${pokemonWeaknesses.map((weakness) => `
                         <div class="col-3 col-md-3 col-lg-2">
-                          <div class="icon ${weakness} p-2" data-toggle="tooltip" data-placement="left" title="${weakness}">
+                          <div class="icon ${weakness} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(weakness)}">
                               <img class="tooltip-type" src="assets/pokemon-type-icons/${weakness}.svg"/>
                           </div>
                         </div>
@@ -263,7 +263,7 @@ export async function createPokemonDetailsElement(pokemon) {
                       <div class="row row-cols-1 row-cols-md-4">
                         ${pokemonStrengths.map((strength) => `
                         <div class="col-3 col-md-3 col-lg-2">
-                          <div class="icon ${strength} p-2" data-toggle="tooltip" data-placement="left" title="${strength}">
+                          <div class="icon ${strength} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(strength)}">
                               <img class="tooltip-type" src="assets/pokemon-type-icons/${strength}.svg"/>
                           </div>
                         </div>
@@ -361,3 +361,4 @@ window.capitalizeFirstLetter = capitalizeFirstLetter;
 window.checkScrollEnd = checkScrollEnd
 window.handleSearchInputChange = handleSearchInputChange;
 window.limit = limit;
+window.initializeTooltips = initializeTooltips;

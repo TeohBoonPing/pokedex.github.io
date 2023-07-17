@@ -309,7 +309,7 @@ export async function fetchPokemonStrengthsByName(name) {
     } catch (error) {
       throw error;
     }
-  }
+}
 
 window.fetchPokemonByName = fetchPokemonByName;
 window.fetchPokemons = fetchPokemons;
