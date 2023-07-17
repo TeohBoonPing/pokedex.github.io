@@ -9,7 +9,7 @@ export const fuse = new Fuse([], {
   keys: ['name'],
 });
 
-export async function fetchPokemonByName(name) {
+async function fetchPokemonByName(name) {
     if(typeof name !== "string" || name.trim().length === 0) {
       throw new Error("Invalid name parameter");
     }
@@ -29,7 +29,7 @@ export async function fetchPokemonByName(name) {
     }
 }
 
-export async function fetchPokemons(offset, limit) {
+async function fetchPokemons(offset, limit) {
     if (typeof offset !== 'number' || typeof limit !== 'number') {
         throw new Error('Invalid offset or limit parameters');
     }
@@ -54,7 +54,7 @@ export async function fetchPokemons(offset, limit) {
     }
 }
 
-export async function fetchAndProcessPokemonData(searchInput) {
+async function fetchAndProcessPokemonData(searchInput) {
     if (typeof searchInput !== "string") {
       throw new Error('Invalid search input');
     }
@@ -160,7 +160,7 @@ export async function fetchAndDisplayPokemonDetails(name) {
     }
 }
 
-export async function fetchPokemonSpecies(url) {
+async function fetchPokemonSpecies(url) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -200,7 +200,7 @@ export async function fetchPokemonEvolution(name) {
     }
 }
 
-export async function fetchEvolutionChain(url) {
+async function fetchEvolutionChain(url) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -212,7 +212,7 @@ export async function fetchEvolutionChain(url) {
     }
 }
 
-export async function fetchEvolutionChainSprites(chain) {
+async function fetchEvolutionChainSprites(chain) {
     const evolutionChain = [];
 
     const fetchSprites = async (speciesName) => {
@@ -321,7 +321,7 @@ export async function fetchPokemonStrengthsByName(name) {
     }
 }
 
-export async function fetchTypeWeaknesses(types) {
+async function fetchTypeWeaknesses(types) {
     try {
         const typePromises = types.map((typeSlot) => fetch(`https://pokeapi.co/api/v2/type/${typeSlot.type.name}`));
         const typeResponses = await Promise.all(typePromises);
@@ -338,7 +338,7 @@ export async function fetchTypeWeaknesses(types) {
     }
 }
   
-export async function fetchTypeStrengths(types) {
+async function fetchTypeStrengths(types) {
     try {
         const typePromises = types.map((typeSlot) => fetch(`https://pokeapi.co/api/v2/type/${typeSlot.type.name}`));
         const typeResponses = await Promise.all(typePromises);
@@ -355,9 +355,6 @@ export async function fetchTypeStrengths(types) {
     }
 }
 
-window.fetchPokemonByName = fetchPokemonByName;
-window.fetchPokemons = fetchPokemons;
-window.fetchAndProcessPokemonData = fetchAndProcessPokemonData;
 window.fetchAndDisplayPokemonDetails = fetchAndDisplayPokemonDetails;
 window.loadingMore = loadingMore;
 window.offset = offset;
