@@ -1,6 +1,10 @@
 import {
   fetchAndPopulatePokemon,
   fetchPokemonEvolution,
+  fetchPokemonDescriptionByName,
+  fetchPokemonGenderByName,
+  fetchPokemonWeaknessesByName,
+  fetchPokemonStrengthsByName,
 } from './api.js'
 
 export const limit = 20;
@@ -154,12 +158,20 @@ export function getColourByPokemonType(type) {
 export async function createPokemonDetailsElement(pokemon) {
     const pokemonDetailsContainer = document.getElementById('pokemonDetails');
     const pokemonSprites = pokemon.sprites.other.home.front_default;
+
+    const pokemonDescription = await fetchPokemonDescriptionByName(pokemon.name)
+    const pokemonWeight = convertWeightFromHectogramsToKilograms(pokemon.weight);
+    const pokemonHeight = convertHeightFromDecimetersToCentimeters(pokemon.height);
+    const pokemonGenders = await fetchPokemonGenderByName(pokemon.name);
+    const pokemonWeaknesses = await fetchPokemonWeaknessesByName(pokemon.name);
+    const pokemonStrengths = await fetchPokemonStrengthsByName(pokemon.name);
+  
     const pokemonStats = extractStatsFromData(pokemon.stats);
     const maxStatValue = Math.max(...Object.values(pokemonStats));
     const typeColour = getColourByPokemonType(pokemon.types[0].type.name);
 
     const evolutionData = await fetchPokemonEvolution(pokemon.name);
-   
+
     pokemonDetailsContainer.innerHTML = `
     <div class="col-md-12" style="margin-top:30px;">
       <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
@@ -176,14 +188,95 @@ export async function createPokemonDetailsElement(pokemon) {
     <div class="col-md-12">
       <ul class="nav nav-pills mb-3 mt-3 pokemon-pills-tab" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab" aria-controls="pills-stats" aria-selected="true">Stats</button>
+          <button class="nav-link active" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-about" type="button" role="tab" aria-controls="pills-about" aria-selected="true">About</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-evolutions-tab" data-bs-toggle="pill" data-bs-target="#pills-evolutions" type="button" role="tab" aria-controls="pills-evolutions" aria-selected="true">Evolutions</button>
+          <button class="nav-link" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab" aria-controls="pills-stats" aria-selected="false">Stats</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-evolutions-tab" data-bs-toggle="pill" data-bs-target="#pills-evolutions" type="button" role="tab" aria-controls="pills-evolutions" aria-selected="false">Evolutions</button>
         </li>
       </ul>
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
+        <div class="tab-pane fade show active" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <p class="flavor-text">
+                  ${pokemonDescription}
+                </p>
+                <div class="col-md-6">
+                  <div class="card about-card">
+                    <div class="card-body">
+                      <h5 class="card-title mb-3">Measurement</h5>
+                      <div class="d-flex flex-row">
+                          <div class="pokemon-scale"><i class="fa-solid fa-weight-scale"></i> ${pokemonWeight} kg </div>
+                          <div class="pokemon-scale"><i class="fa-solid fa-ruler-vertical"></i> ${pokemonHeight} cm </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title mb-3">Gender</h5>
+                      <div class="pokemon-gender">
+                        ${pokemonGenders.genderless ? `
+                        <span>
+                          <i class="gender-icon fa-solid fa-genderless" style="color: white;"></i>
+                          100%
+                        </span>` : ''}
+                        ${pokemonGenders.genders.female ? `
+                        <span>
+                          <i class="gender-icon fa-solid fa-venus" style="color: pink;"></i>
+                          ${pokemonGenders.genders.female}%
+                        </span>` : ''}
+                        ${pokemonGenders.genders.male ? `
+                        <span>
+                          <i class="gender-icon fa-solid fa-mars" style="color: lightblue"></i>
+                          ${pokemonGenders.genders.male}%
+                        </span>` : ''}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title mb-3">${pokemonWeaknesses.length > 1 ? 'Weaknesses' : 'Weakness'}</h5>
+                      <div class="row row-cols-1 row-cols-md-4">
+                        ${pokemonWeaknesses.map((weakness) => `
+                        <div class="col-3 col-md-3 col-lg-2">
+                          <div class="icon ${weakness} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(weakness)}">
+                              <img class="tooltip-type" src="assets/pokemon-type-icons/${weakness}.svg"/>
+                          </div>
+                        </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title mb-3">${pokemonStrengths.length > 1 ? 'Strengths' : 'Strength'}</h5>
+                      <div class="row row-cols-1 row-cols-md-4">
+                        ${pokemonStrengths.map((strength) => `
+                        <div class="col-3 col-md-3 col-lg-2">
+                          <div class="icon ${strength} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(strength)}">
+                              <img class="tooltip-type" src="assets/pokemon-type-icons/${strength}.svg"/>
+                          </div>
+                        </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
           <div class="card">
             <div class="card-body">
               <div class="form-group" style="padding:20px;">
@@ -268,3 +361,4 @@ window.capitalizeFirstLetter = capitalizeFirstLetter;
 window.checkScrollEnd = checkScrollEnd
 window.handleSearchInputChange = handleSearchInputChange;
 window.limit = limit;
+window.initializeTooltips = initializeTooltips;

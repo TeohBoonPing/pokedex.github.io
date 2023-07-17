@@ -6,6 +6,7 @@ import {
     limit,
     handleSearchInputChange,
     checkScrollEnd,
+    initializeTooltips,
 } from './utils.js';
 
 const domain = window.location.pathname.split('/')[1];
@@ -15,6 +16,7 @@ if (currentPageURL === `/${domain}/` || (currentPageURL === '/' || currentPageUR
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', handleSearchInputChange);
     window.addEventListener('scroll', checkScrollEnd);
+    initializeTooltips();
     fetchAndPopulatePokemon(limit, "");
 }
 
@@ -22,6 +24,7 @@ if (currentPageURL.startsWith(`/${domain}/details.html`) || currentPageURL === '
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get("name");
     if (name) {
+        initializeTooltips();
         fetchAndDisplayPokemonDetails(name);
     }
 }

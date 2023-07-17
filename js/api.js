@@ -229,9 +229,95 @@ export async function fetchEvolutionChainSprites(chain) {
 return evolutionChain;
 }
 
+export async function fetchPokemonDescriptionByName(name) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name.toLowerCase()}`);
+        const speciesData = await response.json();
+    
+        // Find the English flavor text entry
+        const englishEntry = speciesData.flavor_text_entries.find((entry) => entry.language.name === 'en');
+        const description = englishEntry.flavor_text;
+
+        return description;
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
+}
+
+export async function fetchPokemonGenderByName(name) {
+    try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+      const speciesData = await response.json();
+  
+      const genderRate = speciesData.gender_rate;
+      const isGenderless = genderRate === -1;
+  
+      const genderObj = isGenderless
+        ? { "genders": { "genderless": 100 } }
+        : {
+            "genders": {
+              "genderless": 100,
+              "male": 100 - ((genderRate / 8) * 100),
+              "female": (genderRate / 8) * 100
+            }
+        };
+      return genderObj;
+    } catch (error) {
+      throw error;
+    }
+}
+
+export async function fetchPokemonWeaknessesByName(name) {
+    try {
+        const response = await fetchPokemonByName(name);
+        const pokemonData = await response;
+
+        const types = pokemonData.types.map((typeSlot) => typeSlot.type.name);
+
+        const typePromises = types.map((type) => fetch(`https://pokeapi.co/api/v2/type/${type}`));
+        const typeResponses = await Promise.all(typePromises);
+        const typeData = await Promise.all(typeResponses.map((typeResponse) => typeResponse.json()));
+        
+        const weaknesses = typeData.reduce((acc, type) => {
+            const typeWeaknesses = type.damage_relations.double_damage_from.map((weakness) => weakness.name);
+            return [...acc, ...typeWeaknesses];
+        }, []);
+
+        return weaknesses;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function fetchPokemonStrengthsByName(name) {
+    try {
+      const response = await fetchPokemonByName(name);
+      const pokemonData = await response;
+  
+      const types = pokemonData.types.map((typeSlot) => typeSlot.type.name);
+  
+      const typePromises = types.map((type) => fetch(`https://pokeapi.co/api/v2/type/${type}`));
+      const typeResponses = await Promise.all(typePromises);
+      const typeData = await Promise.all(typeResponses.map((typeResponse) => typeResponse.json()));
+  
+      const strengths = typeData.reduce((acc, type) => {
+        const typeStrengths = type.damage_relations.double_damage_to.map((strength) => strength.name);
+        return [...acc, ...typeStrengths];
+      }, []);
+  
+      return strengths;
+    } catch (error) {
+      throw error;
+    }
+}
+
 window.fetchPokemonByName = fetchPokemonByName;
 window.fetchPokemons = fetchPokemons;
 window.fetchAndProcessPokemonData = fetchAndProcessPokemonData;
 window.fetchAndDisplayPokemonDetails = fetchAndDisplayPokemonDetails;
 window.loadingMore = loadingMore;
 window.offset = offset;
+window.fetchPokemonDescriptionByName = fetchPokemonDescriptionByName;
+window.fetchPokemonGenderByName = fetchPokemonGenderByName;
+window.fetchPokemonWeaknessesByName = fetchPokemonWeaknessesByName;
+window.fetchPokemonStrengthsByName = fetchPokemonStrengthsByName;
