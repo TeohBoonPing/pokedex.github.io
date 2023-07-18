@@ -82,7 +82,7 @@ export function clearContainer(container) {
 export function createPaginationElement(totalPages, currentPage) {
   const paginationHTML = `
     <nav>
-      <ul class="pagination justify-content-center pagination-lg">
+      <ul class="pagination justify-content-center">
         <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
           <a class="page-link" href="index.html?page=${currentPage - 1}" aria-label="Previous">
             <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
@@ -102,7 +102,7 @@ export function createPaginationElement(totalPages, currentPage) {
 
 
 function generatePageItems(totalPages, currentPage) {
-  const maxPageItems = 5; // Maximum number of page items to display
+  const maxPageItems = 3; // Maximum number of page items to display
   const ellipsisThreshold = 5; // Number of pages to trigger the ellipsis
   const maxPages = Math.min(totalPages, maxPageItems);
 
