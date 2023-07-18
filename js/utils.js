@@ -67,11 +67,12 @@ export function handleSearchInputChange(event) {
 
   if (searchQuery === "") {
     clearContainer(document.getElementById("pokemon-column"));
-    fetchAndPopulatePokemon(0,limit, null); // Fetch and populate all Pokémon
+    fetchAndPopulatePokemon(1, limit, null); // Pass null as the search query parameter
+    unhidePagination();
     return;
   }
 
-  fetchAndPopulatePokemon(0,limit, searchQuery);
+  fetchAndPopulatePokemon(1, limit, searchQuery);
 }
 
 export function clearContainer(container) {
@@ -408,4 +409,18 @@ export function hideLoader(loaderWrapper, mainContent) {
 export function initializePage() {
   initializeTooltips();
   fetchAndPopulatePokemon(0,limit, "");
+}
+
+export function hidePagination() {
+  const paginationDiv = document.getElementById("pagination");
+  if (paginationDiv) {
+    paginationDiv.style.display = "none";
+  }
+}
+
+function unhidePagination() {
+  const paginationDiv = document.getElementById("pagination");
+  if (paginationDiv) {
+    paginationDiv.style.display = "";
+  }
 }

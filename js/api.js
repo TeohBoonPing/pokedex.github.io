@@ -4,6 +4,7 @@ import {
     clearContainer,
     createPokemonDetailsElement,
     createPaginationElement,
+    hidePagination,
 } from './utils.js';
 
 export let isSearchPerformed = false;
@@ -89,24 +90,16 @@ export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
 
     try {
         if (isSearchPerformed && !searchInput) {
-            clearContainer(document.getElementById("pokemon-column"));
-            offset = 0;
+            clearContainer(document.getElementById("pokemon-column"));   
             isSearchPerformed = false;
             fuse.setCollection([]);
-        }
-  
-        if (typeof limit !== "number" || limit <= 0) {
-            throw new Error('Invalid limit parameter');
-        }
-  
-        if (searchInput && typeof searchInput !== 'string') {
-            throw new Error('Invalid search parameter');
         }
   
         let pokemonData = [];
       
         if (searchInput) {
             pokemonData = await fetchAndProcessPokemonData(searchInput, fuse);
+            hidePagination();
         } else {
             const pokemons = await fetchPokemons(offset, limit);
             const pokemonPromises = pokemons.map(pokemon => fetchPokemonByName(pokemon.name));
@@ -150,7 +143,7 @@ export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
         throw error;
     }
 }
-  
+
 export async function fetchAndDisplayPokemonDetails(name) {
     if(!name) {
         throw new Error("No pokemon provided");
