@@ -1,5 +1,4 @@
 import {
-  loadingMore,
   fetchAndPopulatePokemon,
   fetchPokemonEvolution,
   fetchPokemonDescriptionByName,
@@ -8,7 +7,7 @@ import {
   fetchPokemonStrengthsByName,
 } from './api.js'
 
-export const limit = 20;
+export const limit = 9;
 
 const pokemonTypeColors = [
   { name: "bug", color: "#7bcf00" },
@@ -51,15 +50,6 @@ export function initializeTooltips () {
   })
 }
 
-export function checkScrollEnd() {
-  const scrollPosition = window.innerHeight + window.pageYOffset;
-  const bodyHeight = document.body.offsetHeight;
-
-  if (scrollPosition >= bodyHeight && !loadingMore) {
-    fetchAndPopulatePokemon(limit, "");
-  }
-}
-
 export function processPokemon(pokemon) {
   return {
     id: pokemon.id,
@@ -77,19 +67,72 @@ export function handleSearchInputChange(event) {
 
   if (searchQuery === "") {
     clearContainer(document.getElementById("pokemon-column"));
-    fetchAndPopulatePokemon(limit, null); // Fetch and populate all Pokémon
+    fetchAndPopulatePokemon(0,limit, null); // Fetch and populate all Pokémon
     return;
   }
 
-  fetchAndPopulatePokemon(limit, searchQuery);
-
-  // Remove the scroll event listener during instant search
-  window.removeEventListener("scroll", checkScrollEnd);
+  fetchAndPopulatePokemon(0,limit, searchQuery);
 }
 
 export function clearContainer(container) {
   container.innerHTML = '';
 }
+
+export function createPaginationElement(totalPages, currentPage) {
+  const paginationHTML = `
+    <nav>
+      <ul class="pagination justify-content-center pagination-lg">
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+          <a class="page-link" href="index.html?page=${currentPage - 1}" aria-label="Previous">
+            <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
+          </a>
+        </li>
+        ${generatePageItems(totalPages, currentPage)}
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+          <a class="page-link" href="index.html?page=${currentPage + 1}" aria-label="Next">
+            <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+          </a>
+        </li>
+      </ul>
+    </nav>`;
+
+  return paginationHTML;
+}
+
+
+function generatePageItems(totalPages, currentPage) {
+  const maxPageItems = 5; // Maximum number of page items to display
+  const ellipsisThreshold = 5; // Number of pages to trigger the ellipsis
+  const maxPages = Math.min(totalPages, maxPageItems);
+
+  let pageItemsHTML = '';
+
+  if (currentPage > ellipsisThreshold - 2) {
+    // Display ellipsis on the left side
+    pageItemsHTML += `<li class="page-item"><a class="page-link" href="index.html?page=1">1</a></li>
+      <li class="page-item disabled"><span class="page-link">...</span></li>`;
+  }
+
+  let startPage = Math.max(currentPage - 2, 1);
+  let endPage = Math.min(startPage + maxPages - 1, totalPages);
+
+  if (endPage === totalPages && startPage > 1) {
+    startPage = Math.max(endPage - maxPages + 1, 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageItemsHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="index.html?page=${i}">${i}</a></li>`;
+  }
+
+  if (currentPage < totalPages - 2) {
+    pageItemsHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>
+      <li class="page-item"><a class="page-link" href="index.html?page=${totalPages}">${totalPages}</a></li>`;
+  }
+
+  return pageItemsHTML;
+}
+
+
 
 export function createPokemonElement(pokemon) {
   const pokemonDiv = document.createElement("div");
@@ -354,7 +397,6 @@ export async function createPokemonDetailsElement(pokemon) {
 }
 
 export function showLoader(loaderWrapper) {
-  console.log(loaderWrapper)
   loaderWrapper.removeAttribute('hidden');
 }
 
@@ -364,7 +406,6 @@ export function hideLoader(loaderWrapper, mainContent) {
 }
 
 export function initializePage() {
-  window.addEventListener('scroll', checkScrollEnd);
   initializeTooltips();
-  fetchAndPopulatePokemon(limit, "");
+  fetchAndPopulatePokemon(0,limit, "");
 }
