@@ -17,33 +17,38 @@
     <title>Pokedex</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg nav-social-media">
-      <div class="container d-flex justify-content-center align-items-center">
-        <div class="d-flex gap-3">
-          <a href="https://www.linkedin.com/in/boonpingteoh/" target="_blank">
-            <img src="assets/logos/linkedin.svg" />
-          </a>
-          <a href="https://github.com/TeohBoonPing/pokedex" target="_blank">
-            <img src="assets/logos/github.svg" />
-          </a>
-        </div>
+    <div class="wrapper" id="wrapper">
+      <div class="pokeball">
       </div>
-    </nav>
-    
-    
-    <section>
-        <div class="container">
-          <center>
-            <img src="assets/logos/pokedex.svg"/>
-            <form id="searchForm">
-              <div class="input-group mb-3 search-input-group">
-                <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search Pokemon" autocomplete="off">
-              </div>
-            </form>
-          </center>
-          <div class="row gy-5 mt-3" id="pokemon-column"></div>
-        </div>          
-    </section>
+    </div>    
+    <div hidden id="main">
+      <nav class="navbar navbar-expand-lg nav-social-media">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="d-flex gap-3">
+            <a href="https://www.linkedin.com/in/boonpingteoh/" target="_blank">
+              <img src="assets/logos/linkedin.svg" />
+            </a>
+            <a href="https://github.com/TeohBoonPing/pokedex" target="_blank">
+              <img src="assets/logos/github.svg" />
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <section>
+          <div class="container">
+            <center>
+              <img src="assets/logos/pokedex.svg"/>
+              <form id="searchForm">
+                <div class="input-group mb-3 search-input-group">
+                  <input type="text" class="form-control searchInput" id="searchInput" placeholder="Search Pokemon" autocomplete="off">
+                </div>
+              </form>
+            </center>
+            <div class="row gy-5 mt-3" id="pokemon-column"></div>
+          </div>          
+      </section>
+    </div>
     
     <script type="module" src="js/api.js"></script>
     <script type="module" src="js/utils.js"></script>

@@ -13,23 +13,42 @@ import {
 const domain = window.location.pathname.split('/')[1];
 const currentPageURL = window.location.pathname;
 
-if (currentPageURL === `/${domain}/` || (currentPageURL === '/' || currentPageURL === '/index.html')) {
-    const searchInput = document.getElementById('searchInput');
-    if(searchInput) {
-        searchInput.addEventListener('input', handleSearchInputChange);
-    }
-    window.addEventListener('scroll', checkScrollEnd);
-    initializeTooltips();
-    fetchAndPopulatePokemon(limit, "");
+const loaderWrapper = document.getElementById('wrapper');
+const mainContent = document.getElementById('main');
+
+function showLoader() {
+    loaderWrapper.removeAttribute('hidden');
 }
 
-if (currentPageURL.startsWith(`/${domain}/details.html`) || currentPageURL === '/details.html') {
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get("name");
-    if (name) {
-        initializeTooltips();
-        fetchAndDisplayPokemonDetails(name);
-    } else {
-        console.error("Pokemon name is missing");
+function hideLoader() {
+    loaderWrapper.setAttribute('hidden', '');
+    mainContent.removeAttribute('hidden');
+}
+
+function loadData(name) {
+    showLoader();
+    setTimeout(() => {
+        hideLoader();
+    }, 1000);
+
+    initializeTooltips();
+
+    if (currentPageURL === `/${domain}/` || currentPageURL === '/' || currentPageURL === '/index.html') {
+        fetchAndPopulatePokemon(limit, "");
+        window.addEventListener('scroll', checkScrollEnd);
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', handleSearchInputChange);
+        }
+    } else if (currentPageURL.startsWith(`/${domain}/details.html`) || currentPageURL === '/details.html') {
+        if (name) {
+            fetchAndDisplayPokemonDetails(name);
+        } else {
+            console.error("Pokemon name is missing");
+        }
     }
 }
+
+const urlParams = new URLSearchParams(window.location.search);
+const name = urlParams.get("name");
+loadData(name);
