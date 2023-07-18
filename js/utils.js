@@ -352,3 +352,19 @@ export async function createPokemonDetailsElement(pokemon) {
     </div>
   </div>`;
 }
+
+export function showLoader(loaderWrapper) {
+  console.log(loaderWrapper)
+  loaderWrapper.removeAttribute('hidden');
+}
+
+export function hideLoader(loaderWrapper, mainContent) {
+  loaderWrapper.setAttribute('hidden', '');
+  mainContent.removeAttribute('hidden');
+}
+
+export function initializePage() {
+  window.addEventListener('scroll', checkScrollEnd);
+  initializeTooltips();
+  fetchAndPopulatePokemon(limit, "");
+}
