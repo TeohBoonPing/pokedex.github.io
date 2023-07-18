@@ -31,8 +31,7 @@ function loadData(name, pageNumber) {
     }, 1000);
 
     initializeTooltips();
-
-    if (currentPageURL === `/${domain}/` || currentPageURL === '/' || currentPageURL === '/index.html') {
+    if (currentPageURL === `/${domain}/` || currentPageURL === '/' || currentPageURL === '/index.html' || currentPageURL === `/${domain}/index.html`) {
         fetchAndPopulatePokemon(pageNumber, limit, "");
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
