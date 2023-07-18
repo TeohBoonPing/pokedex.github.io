@@ -3,10 +3,10 @@ import {
     createPokemonElement,
     clearContainer,
     createPokemonDetailsElement,
+    createPaginationElement,
+    hidePagination,
 } from './utils.js';
 
-export let offset = 0;
-export let loadingMore = false;
 export let isSearchPerformed = false;
 export const fuse = new Fuse([], {
   keys: ['name'],
@@ -77,7 +77,7 @@ async function fetchAndProcessPokemonData(searchInput) {
     }
 }
 
-export async function fetchAndPopulatePokemon(limit, searchInput) {
+export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
     if (typeof limit !== 'number' || limit <= 0) {
         throw new Error('Invalid limit parameter');
     }
@@ -86,28 +86,20 @@ export async function fetchAndPopulatePokemon(limit, searchInput) {
         throw new Error('Invalid search input parameter');
     }
 
+    const offset = (pageNumber - 1) * limit;
+
     try {
         if (isSearchPerformed && !searchInput) {
-            clearContainer(document.getElementById("pokemon-column"));
-            offset = 0;
+            clearContainer(document.getElementById("pokemon-column"));   
             isSearchPerformed = false;
-            loadingMore = false;
             fuse.setCollection([]);
         }
   
-        if (typeof limit !== "number" || limit <= 0) {
-            throw new Error('Invalid limit parameter');
-        }
-  
-        if (searchInput && typeof searchInput !== 'string') {
-            throw new Error('Invalid search parameter');
-        }
-  
-        loadingMore = true;
         let pokemonData = [];
       
         if (searchInput) {
             pokemonData = await fetchAndProcessPokemonData(searchInput, fuse);
+            hidePagination();
         } else {
             const pokemons = await fetchPokemons(offset, limit);
             const pokemonPromises = pokemons.map(pokemon => fetchPokemonByName(pokemon.name));
@@ -119,13 +111,13 @@ export async function fetchAndPopulatePokemon(limit, searchInput) {
         const searchResults = searchInput 
             ? fuse.search(searchInput).map(result => result.item) 
             : pokemonData;
-  
+        
         const pokemonContainer = document.getElementById("pokemon-column");
+        const paginationDiv = document.getElementById("pagination");
         const fragment = document.createDocumentFragment();
   
         if (searchInput) {
             clearContainer(pokemonContainer);
-            offset = 0;
         }
   
         for (const pokemon of searchResults) {
@@ -134,22 +126,24 @@ export async function fetchAndPopulatePokemon(limit, searchInput) {
         }
   
         pokemonContainer.appendChild(fragment);
-    
-        loadingMore = false;
-  
+        
+        if(paginationDiv) {
+            const totalPokemonCount = await fetchPokemonTotalCount();
+            const totalPages = Math.ceil(totalPokemonCount / limit);
+            const paginationElement = createPaginationElement(totalPages, pageNumber);
+            paginationDiv.innerHTML = paginationElement;
+        }
+
         if (searchInput) {
             isSearchPerformed = false;
-        } else {
-            offset += limit;
         }
 
         return pokemonData;
     } catch (error) {
-        loadingMore = false;
         throw error;
     }
 }
-  
+
 export async function fetchAndDisplayPokemonDetails(name) {
     if(!name) {
         throw new Error("No pokemon provided");
@@ -357,3 +351,18 @@ async function fetchTypeStrengths(types) {
         throw error;
     }
 }
+
+async function fetchPokemonTotalCount() {
+    try {
+      const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+      if (!response.ok) {
+        throw new Error('Failed to fetch total count from PokeAPI');
+      }
+      const data = await response.json();
+      const totalCount = data.count;
+      return totalCount;
+    } catch (error) {
+      console.error(error);
+    }
+}
+  

@@ -6,7 +6,6 @@ import {
 import {
     limit,
     handleSearchInputChange,
-    checkScrollEnd,
     initializeTooltips,
 } from './utils.js';
 
@@ -25,7 +24,7 @@ function hideLoader() {
     mainContent.removeAttribute('hidden');
 }
 
-function loadData(name) {
+function loadData(name, pageNumber) {
     showLoader();
     setTimeout(() => {
         hideLoader();
@@ -34,8 +33,7 @@ function loadData(name) {
     initializeTooltips();
 
     if (currentPageURL === `/${domain}/` || currentPageURL === '/' || currentPageURL === '/index.html') {
-        fetchAndPopulatePokemon(limit, "");
-        window.addEventListener('scroll', checkScrollEnd);
+        fetchAndPopulatePokemon(pageNumber, limit, "");
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.addEventListener('input', handleSearchInputChange);
@@ -51,4 +49,5 @@ function loadData(name) {
 
 const urlParams = new URLSearchParams(window.location.search);
 const name = urlParams.get("name");
-loadData(name);
+const currentPage = parseInt(urlParams.get('page')) || 1; // Set the current page value based on the query parameter or default to 1
+loadData(name, currentPage);

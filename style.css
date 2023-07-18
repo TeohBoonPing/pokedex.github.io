@@ -373,3 +373,21 @@ hr {
     transform: rotate(360deg);
   }
 }
+
+.page-link {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10% !important;
+    font-size:15px !important;
+    padding-top:12px !important;
+    padding-bottom: 12px !important;
+    font-weight: bolder;
+    margin: 3px !important;
+}
+
+.pagination a:hover,
+.pagination .active a {
+    background-color: #3b6ff1 !important;
+    color: #ffffff;
+}
