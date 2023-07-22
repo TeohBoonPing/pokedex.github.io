@@ -328,8 +328,9 @@ async function fetchTypeWeaknesses(types) {
             const typeWeaknesses = type.damage_relations.double_damage_from.map((weakness) => weakness.name);
             return [...acc, ...typeWeaknesses];
         }, []);
-  
-        return weaknesses;
+        
+        const uniqueWeaknesses = Array.from(new Set(weaknesses));
+        return uniqueWeaknesses;
     } catch (error) {
         throw error;
     }
@@ -346,7 +347,8 @@ async function fetchTypeStrengths(types) {
         return [...acc, ...typeStrengths];
     }, []);
   
-        return strengths;
+        const uniqueStrengths = Array.from(new Set(strengths));
+        return uniqueStrengths;
     } catch (error) {
         throw error;
     }
