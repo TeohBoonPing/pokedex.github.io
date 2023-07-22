@@ -289,6 +289,11 @@ hr {
 .evolution-sprite {
     margin-top:20px;
     padding:20px;
+    transition: transform .2s;
+}
+.evolution-sprite:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 .flavor-text {
     color:white;
