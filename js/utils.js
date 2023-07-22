@@ -148,6 +148,7 @@ export function createPokemonElement(pokemon) {
             </a>
         </div>
         <div class="card-body">
+            <div class="pokemon-dex-number">#${formatNumberWithLeadingZeros(pokemon.id)}</div>
             <h5 class="card-title text-center">${pokemon.name}</h5>
             <div class="d-flex flex-row justify-content-center">
             ${pokemon.types
@@ -228,6 +229,7 @@ export async function createPokemonDetailsElement(pokemon) {
                   <img class="pokemon-image bottom-image" src="assets/pokeball.png" alt="...">
               </div>
           </div>
+          <div class="pokemon-dex-number mt-3">#${formatNumberWithLeadingZeros(pokemon.id)}</div>
           <div class="pokemon-name" style="background-color: ${typeColour}">${capitalizeFirstLetter(pokemon.name)}</div>
           <p class="pokemon-description">${pokemonDescription}</p>
         </center>
@@ -371,4 +373,9 @@ function unhidePagination() {
   if (paginationDiv) {
     paginationDiv.style.display = "";
   }
+}
+
+function formatNumberWithLeadingZeros(number) {
+  const formattedNumber = String(number).padStart(3, '0');
+  return formattedNumber;
 }
