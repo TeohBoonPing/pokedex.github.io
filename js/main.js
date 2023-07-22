@@ -26,10 +26,13 @@ function hideLoader() {
 
 function loadData(name, pageNumber) {
     showLoader();
-    setTimeout(() => {
-        hideLoader();
-    }, 1000);
 
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            hideLoader();
+        }, 1000);
+    })
+    
     initializeTooltips();
     if (currentPageURL === `/${domain}/` || currentPageURL === '/' || currentPageURL === '/index.html' || currentPageURL === `/${domain}/index.html`) {
         fetchAndPopulatePokemon(pageNumber, limit, "");
