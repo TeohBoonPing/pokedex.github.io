@@ -329,11 +329,10 @@ export async function createPokemonDetailsElement(pokemon) {
                       <div class="col-12 col-sm-12 col-md-3">
                         <div class="card">
                           <div class="text-center evolution-sprite-container" style="border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};">
-                          ${evolution.sprite
-                            ? `<img style="max-width:250px;" src="${evolution.sprite}" class="evolution-sprite">`
-                            : `<img style="max-width:250px;" src="assets/image-not-found.png" class="evolution-sprite">`
-                          }
-                          
+                            ${evolution.sprite
+                              ? `<img style="max-width:250px;" src="${evolution.sprite}" class="evolution-sprite">`
+                              : `<img style="max-width:250px;" src="assets/image-not-found.png" class="evolution-sprite">`
+                            }
                           </div>
                           <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
                         </div>
