@@ -362,7 +362,9 @@ async function fetchPokemonTotalCount() {
       }
       const data = await response.json();
       const totalCount = data.count;
-      return totalCount;
+      const finalCount = totalCount - 381;
+      return finalCount
+
     } catch (error) {
       console.error(error);
     }
