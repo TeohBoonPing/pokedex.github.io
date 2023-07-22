@@ -221,7 +221,7 @@ export async function createPokemonDetailsElement(pokemon) {
 
     pokemonDetailsContainer.innerHTML = `
     <div class="col-12 mb-5 mt-5">
-      <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
+      <a class="back" onclick="history.go(-1)"><i class="bi bi-arrow-left-circle-fill"></i></a>
     </div>
     <div class="col-md-12 mb-5">
       <div class="card h-100">
