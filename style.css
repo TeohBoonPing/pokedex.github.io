@@ -414,3 +414,7 @@ hr {
     font-style: italic;
     padding: 20px;
 }
+.progress-bar {
+    font-weight: bolder;
+    color:black !important;
+}

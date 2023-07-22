@@ -182,17 +182,6 @@ function calculateProgressBarWidth(value, maxValue) {
   return (value / maxValue) * 100;
 }
 
-function getProgressBarColorByValue(value) {
-  const threshold = 50;
-  const colorLookup = {
-    'bg-danger': value < threshold,
-    'bg-warning': value === threshold, 
-    'bg-success': value > threshold,
-  }
-  
-  return Object.keys(colorLookup).find(color => colorLookup[color]);
-}
-
 function getColourByPokemonType(type) {
   const foundType = pokemonTypeColors.find(
     pokemonType => pokemonType.name === type
@@ -200,19 +189,30 @@ function getColourByPokemonType(type) {
   return foundType ? foundType.color : null;
 }
 
+function populateProgressBar(pokemonStats, typeColour) {
+  let html = '';
+  const maxStatValue = Math.max(...Object.values(pokemonStats));
+  for (const key in pokemonStats) {
+    const progressBarWidth = calculateProgressBarWidth(pokemonStats[key], maxStatValue);
+    html += `
+      <label class="form-label">${key}</label>
+        <div class="progress" role="progressbar">
+          <div class="progress-bar" style="background-color: ${typeColour}; width: ${progressBarWidth}%;">${pokemonStats[key]}</div>
+        </div>
+    `;
+  }
+  return html;
+}
+
 export async function createPokemonDetailsElement(pokemon) {
     const pokemonDetailsContainer = document.getElementById('pokemonDetails');
     const pokemonSprites = pokemon.sprites.other.home.front_default;
-
     const pokemonDescription = await fetchPokemonDescriptionByName(pokemon.name)
     const pokemonGenders = await fetchPokemonGenderByName(pokemon.name);
     const pokemonWeaknesses = await fetchPokemonWeaknessesByName(pokemon.name);
     const pokemonStrengths = await fetchPokemonStrengthsByName(pokemon.name);
-  
     const pokemonStats = extractStatsFromData(pokemon.stats);
-    const maxStatValue = Math.max(...Object.values(pokemonStats));
     const typeColour = getColourByPokemonType(pokemon.types[0].type.name);
-
     const evolutionData = await fetchPokemonEvolution(pokemon.name);
 
     pokemonDetailsContainer.innerHTML = `
@@ -302,35 +302,7 @@ export async function createPokemonDetailsElement(pokemon) {
       <div class="card h-100">
         <div class="card-body">
           <div class="form-group" style="padding:20px;">
-            <label class="form-label">HP</label>
-            <div class="progress" role="progressbar">
-              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.hp)}" style="width: ${calculateProgressBarWidth(pokemonStats.hp, maxStatValue)}%">${pokemonStats.hp}</div>
-            </div>
-
-            <label class="form-label">Attack</label>
-            <div class="progress" role="progressbar">
-              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.attack)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.attack, maxStatValue)}%;">${pokemonStats.attack}</div>
-            </div>
-
-            <label class="form-label">Defense</label>
-            <div class="progress" role="progressbar">
-              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.defense)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.defense, maxStatValue)}%">${pokemonStats.defense}</div>
-            </div>
-
-            <label class="form-label">Speed</label>
-            <div class="progress" role="progressbar">
-              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.speed)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.speed, maxStatValue)}%">${pokemonStats.speed}</div>
-            </div>
-
-            <label class="form-label">Special Defense</label>
-            <div class="progress" role="progressbar">
-              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-defense"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-defense"], maxStatValue)}%">${pokemonStats["special-defense"]}</div>
-            </div>
-
-            <label class="form-label">Special Attack</label>
-            <div class="progress" role="progressbar">
-              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-attack"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-attack"], maxStatValue)}%">${pokemonStats["special-attack"]}</div>
-            </div>
+            ${populateProgressBar(pokemonStats, typeColour)}
           </div>
         </div>
       </div>
