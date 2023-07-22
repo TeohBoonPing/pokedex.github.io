@@ -5,6 +5,7 @@ import {
     createPokemonDetailsElement,
     createPaginationElement,
     hidePagination,
+    redirectToPageNotFound,
 } from './utils.js';
 
 export let isSearchPerformed = false;
@@ -27,6 +28,7 @@ async function fetchPokemonByName(name) {
         return await response.json();
   
     } catch (error) {
+        redirectToPageNotFound();
         console.log("Failed to fetch pokemon, error:" + error)
         throw error;
     }

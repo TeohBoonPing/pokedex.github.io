@@ -389,3 +389,7 @@ function formatNumberWithLeadingZeros(number) {
   const formattedNumber = String(number).padStart(3, '0');
   return formattedNumber;
 }
+
+export function redirectToPageNotFound() {
+  return window.location.href="404.html";
+}
