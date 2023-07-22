@@ -193,18 +193,18 @@ hr {
     justify-content: center;
 }
 .top-image {
-    width: 250px !important;
+    width: 300px !important;
     height: auto;
     display: block;
     margin: 0 auto;
     position: absolute;
-    top: 48%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -65%);
     z-index: 1;
 }
 .bottom-image {
-    width: 430px !important;
+    width: 450px !important;
     height: auto;
     display: block;
     margin-top: 10px;
@@ -213,10 +213,16 @@ hr {
     left: 50%;
 }
 @media (max-width: 767px) {
+    .top-image {
+        width: 200px !important;
+    }
+    .bottom-image {
+        width: 350px !important;
+    }
     .top-image,
     .bottom-image {
         left: 50%;
-        top: 5%;
+        top: 15%;
         transform: translateX(-50%);
     }
 }
