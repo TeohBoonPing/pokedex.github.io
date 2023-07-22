@@ -279,7 +279,6 @@ export async function fetchPokemonGenderByName(name) {
             ? { "genders": { "genderless": 100 } }
             : {
                 "genders": {
-                "genderless": 100,
                 "male": 100 - ((genderRate / 8) * 100),
                 "female": (genderRate / 8) * 100
                 }
