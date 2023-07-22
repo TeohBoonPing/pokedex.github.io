@@ -196,9 +196,9 @@ function populateProgressBar(pokemonStats, typeColour) {
     const progressBarWidth = calculateProgressBarWidth(pokemonStats[key], maxStatValue);
     html += `
       <label class="form-label">${key}</label>
-        <div class="progress" role="progressbar">
+      <div class="progress" role="progressbar" style="height: 40px">
           <div class="progress-bar" style="background-color: ${typeColour}; width: ${progressBarWidth}%;">${pokemonStats[key]}</div>
-        </div>
+      </div> 
     `;
   }
   return html;
@@ -301,7 +301,7 @@ export async function createPokemonDetailsElement(pokemon) {
     <div class="col-md-12 col-lg-6 mb-5">
       <div class="card h-100">
         <div class="card-body">
-          <div class="form-group" style="padding:20px;">
+          <div class="form-group p-3 mt-2">
             ${populateProgressBar(pokemonStats, typeColour)}
           </div>
         </div>
