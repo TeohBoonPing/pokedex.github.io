@@ -144,7 +144,10 @@ export function createPokemonElement(pokemon) {
     <div class="shadow card">
         <div class="text-center">
             <a href='details.html?name=${pokemon.name}'>
-              <img src="${pokemon.sprites}" class="card-img-top sprites" alt="${pokemon.name}">
+              ${pokemon.sprites
+                ? `<img src="${pokemon.sprites}" class="card-img-top sprites" alt="${pokemon.name}">`
+                : `<img src="assets/image-not-found.png" class="card-img-top sprites" alt="${pokemon.name}">`
+              }
             </a>
         </div>
         <div class="card-body">
@@ -225,8 +228,12 @@ export async function createPokemonDetailsElement(pokemon) {
         <center>
           <div class="col-4">
               <div class="image-container">
-                  <img class="pokemon-image top-image" src="${pokemonSprites}" alt="...">
-                  <img class="pokemon-image bottom-image" src="assets/pokeball.png" alt="...">
+                  ${pokemonSprites
+                    ? `<img class="pokemon-image top-image" src="${pokemonSprites}" alt="...">
+                       <img class="pokemon-image bottom-image" src="assets/pokeball.png" alt="...">
+                      `
+                    : `<img src="assets/image-not-found.png" class="pokemon-image bottom-image">`
+                  }
               </div>
           </div>
           <div class="pokemon-dex-number mt-3">#${formatNumberWithLeadingZeros(pokemon.id)}</div>
@@ -322,7 +329,11 @@ export async function createPokemonDetailsElement(pokemon) {
                       <div class="col-12 col-sm-12 col-md-3">
                         <div class="card">
                           <div class="text-center evolution-sprite-container" style="border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};">
-                            <img style="max-width:250px;" src="${evolution.sprite}" class="evolution-sprite">
+                          ${evolution.sprite
+                            ? `<img style="max-width:250px;" src="${evolution.sprite}" class="evolution-sprite">`
+                            : `<img style="max-width:250px;" src="assets/image-not-found.png" class="evolution-sprite">`
+                          }
+                          
                           </div>
                           <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
                         </div>
