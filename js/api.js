@@ -153,6 +153,9 @@ export async function fetchAndDisplayPokemonDetails(name) {
 
     try {
         const pokemon = await fetchPokemonByName(name);
+        if(!pokemon) {
+            redirectToPageNotFound();
+        }
         createPokemonDetailsElement(pokemon);
     } catch (error) {
         throw error;
