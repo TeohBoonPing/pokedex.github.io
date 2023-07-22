@@ -146,7 +146,7 @@ body {
     font-family: 'Ubuntu';
 }
 .searchInput:focus {
-    border-color: #4bc9ff !important;
+    border-color: #4e6aff !important;
 }
 .searchInput::placeholder {
     color:white !important;
@@ -170,7 +170,8 @@ hr {
     font-size:40px;
 }
 .back:hover {
-    color: #4bc9ff;
+    color: #4e6aff;
+    cursor: pointer;
 }
 .pokemon-profile {
     display: flex;
