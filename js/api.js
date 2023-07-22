@@ -6,6 +6,7 @@ import {
     createPaginationElement,
     hidePagination,
     redirectToPageNotFound,
+    pokemonNotFoundElement
 } from './utils.js';
 
 export let isSearchPerformed = false;
@@ -17,18 +18,17 @@ async function fetchPokemonByName(name) {
     if(typeof name !== "string" || name.trim().length === 0) {
       throw new Error("Invalid name parameter");
     }
-  
+
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
       
         if(!response.ok) {
-            throw new Error("Pokemon does not exist");
+            redirectToPageNotFound();
         }
       
         return await response.json();
   
     } catch (error) {
-        redirectToPageNotFound();
         console.log("Failed to fetch pokemon, error:" + error)
         throw error;
     }
@@ -91,6 +91,10 @@ export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
     const offset = (pageNumber - 1) * limit;
 
     try {
+        const pokemonContainer = document.getElementById("pokemon-column");
+        const paginationDiv = document.getElementById("pagination");
+        const fragment = document.createDocumentFragment();
+
         if (isSearchPerformed && !searchInput) {
             clearContainer(document.getElementById("pokemon-column"));   
             isSearchPerformed = false;
@@ -100,7 +104,9 @@ export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
         let pokemonData = [];
       
         if (searchInput) {
+            isSearchPerformed = false;
             pokemonData = await fetchAndProcessPokemonData(searchInput, fuse);
+            clearContainer(pokemonContainer);
             hidePagination();
         } else {
             const pokemons = await fetchPokemons(offset, limit);
@@ -113,20 +119,17 @@ export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
         const searchResults = searchInput 
             ? fuse.search(searchInput).map(result => result.item) 
             : pokemonData;
-        
-        const pokemonContainer = document.getElementById("pokemon-column");
-        const paginationDiv = document.getElementById("pagination");
-        const fragment = document.createDocumentFragment();
-  
-        if (searchInput) {
-            clearContainer(pokemonContainer);
+
+        if (isSearchPerformed && searchResults.length === 0) {
+            const pokemonDiv = pokemonNotFoundElement();
+            fragment.appendChild(pokemonDiv);
         }
-  
+
         for (const pokemon of searchResults) {
             const pokemonDiv = createPokemonElement(processPokemon(pokemon));
             fragment.appendChild(pokemonDiv);
         }
-  
+    
         pokemonContainer.appendChild(fragment);
         
         if(paginationDiv) {
@@ -134,10 +137,6 @@ export async function fetchAndPopulatePokemon(pageNumber, limit, searchInput) {
             const totalPages = Math.ceil(totalPokemonCount / limit);
             const paginationElement = createPaginationElement(totalPages, pageNumber);
             paginationDiv.innerHTML = paginationElement;
-        }
-
-        if (searchInput) {
-            isSearchPerformed = false;
         }
 
         return pokemonData;
