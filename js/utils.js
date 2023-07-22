@@ -205,8 +205,6 @@ export async function createPokemonDetailsElement(pokemon) {
     const pokemonSprites = pokemon.sprites.other.home.front_default;
 
     const pokemonDescription = await fetchPokemonDescriptionByName(pokemon.name)
-    const pokemonWeight = convertWeightFromHectogramsToKilograms(pokemon.weight);
-    const pokemonHeight = convertHeightFromDecimetersToCentimeters(pokemon.height);
     const pokemonGenders = await fetchPokemonGenderByName(pokemon.name);
     const pokemonWeaknesses = await fetchPokemonWeaknessesByName(pokemon.name);
     const pokemonStrengths = await fetchPokemonStrengthsByName(pokemon.name);
