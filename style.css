@@ -418,3 +418,10 @@ hr {
     font-weight: bolder;
     color:black !important;
 }
+.pokemon-dex-number {
+    color:white;
+    font-family: 'Ubuntu';
+    text-align: center;
+    font-size:22px;
+    margin-bottom: 10px;
+}
