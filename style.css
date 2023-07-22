@@ -282,11 +282,13 @@ hr {
         width: 200px;
     }
 }
-.evolution-sprite {
+.evolution-sprite-container {
     border-radius: 50%;
-    margin-top:20px;
-    padding:10px;
     border: 5px solid;
+}
+.evolution-sprite {
+    margin-top:20px;
+    padding:20px;
 }
 .flavor-text {
     color:white;

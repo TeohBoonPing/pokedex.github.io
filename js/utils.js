@@ -321,8 +321,8 @@ export async function createPokemonDetailsElement(pokemon) {
                     .map((evolution, index, arr) => `
                       <div class="col-12 col-sm-12 col-md-3">
                         <div class="card">
-                          <div class="text-center">
-                            <img style="max-width:250px; border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};" src="${evolution.sprite}" class="evolution-sprite" alt="...">
+                          <div class="text-center evolution-sprite-container" style="border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};">
+                            <img style="max-width:250px;" src="${evolution.sprite}" class="evolution-sprite">
                           </div>
                           <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
                         </div>
