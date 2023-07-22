@@ -302,6 +302,7 @@ hr {
 }
 .pokemon-gender > span {
     margin:10px !important;
+    font-family: 'Ubuntu' !important;
 }
 .gender-icon {
     font-size: 40px;
@@ -390,4 +391,26 @@ hr {
 .pagination .active a {
     background-color: #3b6ff1 !important;
     color: #ffffff;
+}
+.list-group-item {
+    color: white !important;
+    background-color: transparent !important;
+    text-align: center;
+    font-size:20px;
+    border-color: gray !important;
+    height: auto;
+    font-family: 'Ubuntu';
+    min-height:120px;
+}
+.pokemon-details-list {
+    padding:30px !important;
+    background-color: transparent !important;
+}
+.pokemon-description {
+    margin-top:15px;
+    color:white;
+    font-family: 'Ubuntu';
+    font-size: 20px;
+    font-style: italic;
+    padding: 20px;
 }

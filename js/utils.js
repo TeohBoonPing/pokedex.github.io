@@ -218,177 +218,155 @@ export async function createPokemonDetailsElement(pokemon) {
     const evolutionData = await fetchPokemonEvolution(pokemon.name);
 
     pokemonDetailsContainer.innerHTML = `
-    <div class="col-md-12" style="margin-top:30px;">
+    <div class="col-12 mb-5 mt-5">
       <a class="back" href="./"><i class="bi bi-arrow-left-circle-fill"></i></a>
-      <center>
-          <div class="col-4 pokemon-profile">
-              <div class=" image-container">
+    </div>
+    <div class="col-md-12 mb-5">
+      <div class="card h-100">
+        <center>
+          <div class="col-4">
+              <div class="image-container">
                   <img class="pokemon-image top-image" src="${pokemonSprites}" alt="...">
                   <img class="pokemon-image bottom-image" src="assets/pokeball.png" alt="...">
               </div>
           </div>
           <div class="pokemon-name" style="background-color: ${typeColour}">${capitalizeFirstLetter(pokemon.name)}</div>
-      </center>
+          <p class="pokemon-description">${pokemonDescription}</p>
+        </center>
+      </div>
     </div>
-    <div class="col-md-12">
-      <ul class="nav nav-pills mb-3 mt-3 pokemon-pills-tab" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-about" type="button" role="tab" aria-controls="pills-about" aria-selected="true">About</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab" aria-controls="pills-stats" aria-selected="false">Stats</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-evolutions-tab" data-bs-toggle="pill" data-bs-target="#pills-evolutions" type="button" role="tab" aria-controls="pills-evolutions" aria-selected="false">Evolutions</button>
-        </li>
-      </ul>
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <p class="flavor-text">
-                  ${pokemonDescription}
-                </p>
-                <div class="col-md-6">
-                  <div class="card about-card">
-                    <div class="card-body">
-                      <h5 class="card-title mb-3">Measurement</h5>
-                      <div class="d-flex flex-row">
-                          <div class="pokemon-scale"><i class="fa-solid fa-weight-scale"></i> ${pokemonWeight} kg </div>
-                          <div class="pokemon-scale"><i class="fa-solid fa-ruler-vertical"></i> ${pokemonHeight} cm </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title mb-3">Gender</h5>
-                      <div class="pokemon-gender">
-                        ${pokemonGenders.genderless ? `
-                        <span>
-                          <i class="gender-icon fa-solid fa-genderless" style="color: white;"></i>
-                          100%
-                        </span>` : ''}
-                        ${pokemonGenders.genders.female ? `
-                        <span>
-                          <i class="gender-icon fa-solid fa-venus" style="color: pink;"></i>
-                          ${pokemonGenders.genders.female}%
-                        </span>` : ''}
-                        ${pokemonGenders.genders.male ? `
-                        <span>
-                          <i class="gender-icon fa-solid fa-mars" style="color: lightblue"></i>
-                          ${pokemonGenders.genders.male}%
-                        </span>` : ''}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title mb-3">${pokemonWeaknesses.length > 1 ? 'Weaknesses' : 'Weakness'}</h5>
-                      <div class="row row-cols-1 row-cols-md-4">
-                        ${pokemonWeaknesses.map((weakness) => `
-                        <div class="col-3 col-md-3 col-lg-2">
-                          <div class="icon ${weakness} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(weakness)}">
-                              <img class="tooltip-type" src="assets/pokemon-type-icons/${weakness}.svg"/>
-                          </div>
-                        </div>
-                        `).join('')}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title mb-3">${pokemonStrengths.length > 1 ? 'Strengths' : 'Strength'}</h5>
-                      <div class="row row-cols-1 row-cols-md-4">
-                        ${pokemonStrengths.map((strength) => `
-                        <div class="col-3 col-md-3 col-lg-2">
-                          <div class="icon ${strength} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(strength)}">
-                              <img class="tooltip-type" src="assets/pokemon-type-icons/${strength}.svg"/>
-                          </div>
-                        </div>
-                        `).join('')}
-                      </div>
-                    </div>
-                  </div>
+    <div class="col-md-12 col-lg-6 mb-5">
+      <div class="card h-100">
+        <ul class="list-group list-group-flush pokemon-details-list">
+          <li class="list-group-item">
+            <div class="row d-flex align-items-center">
+              <div class="col-md-6">
+                Gender
+              </div>
+              <div class="col-md-6">
+                <div class="pokemon-gender d-flex flex-wrap justify-content-center">
+                  ${pokemonGenders.genderless ? `
+                  <span>
+                    <i class="gender-icon fa-solid fa-genderless" style="color: white;"></i>
+                    100%
+                  </span>` : ''}
+                  ${pokemonGenders.genders.female ? `
+                  <span>
+                    <i class="gender-icon fa-solid fa-venus" style="color: pink;"></i>
+                    ${pokemonGenders.genders.female}%
+                  </span>` : ''}
+                  ${pokemonGenders.genders.male ? `
+                  <span>
+                    <i class="gender-icon fa-solid fa-mars" style="color: lightblue"></i>
+                    ${pokemonGenders.genders.male}%
+                  </span>` : ''}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
-          <div class="card">
-            <div class="card-body">
-              <div class="form-group" style="padding:20px;">
-                <label class="form-label">HP</label>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.hp)}" style="width: ${calculateProgressBarWidth(pokemonStats.hp, maxStatValue)}%">${pokemonStats.hp}</div>
-                </div>
-
-                <label class="form-label">Attack</label>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.attack)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.attack, maxStatValue)}%;">${pokemonStats.attack}</div>
-                </div>
-
-                <label class="form-label">Defense</label>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.defense)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.defense, maxStatValue)}%">${pokemonStats.defense}</div>
-                </div>
-
-                <label class="form-label">Speed</label>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.speed)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.speed, maxStatValue)}%">${pokemonStats.speed}</div>
-                </div>
-
-                <label class="form-label">Special Defense</label>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-defense"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-defense"], maxStatValue)}%">${pokemonStats["special-defense"]}</div>
-                </div>
-
-                <label class="form-label">Special Attack</label>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-attack"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-attack"], maxStatValue)}%">${pokemonStats["special-attack"]}</div>
+          </li>
+          <li class="list-group-item">
+            <div class="row d-flex align-items-center">
+              <div class="col-md-6">
+                ${pokemonWeaknesses.length > 1 ? 'Weaknesses' : 'Weakness'}
+              </div>
+              <div class="col-md-6">
+                <div class="d-flex flex-wrap justify-content-center">
+                  ${pokemonWeaknesses.map((weakness) => `
+                    <div class="icon ${weakness} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(weakness)}">
+                        <img class="tooltip-type" src="assets/pokemon-type-icons/${weakness}.svg"/>
+                    </div>
+                  `).join('')}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="pills-evolutions" role="tabpanel" aria-labelledby="pills-evolutions-tab" tabindex="0">
-          <div class="card">
-            <div class="card-body">
-              <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="row row-cols-1 row-cols-md-5 justify-content-center align-items-center">
-                      ${evolutionData.evolutionChain
-                        .map((evolution, index, arr) => `
-                          <div class="col-12 col-sm-12 col-md-3">
-                            <div class="card">
-                              <div class="text-center">
-                                <img style="max-width:250px; border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};" src="${evolution.sprite}" class="evolution-sprite" alt="...">
-                              </div>
-                              <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
-                            </div>
-                          </div>
-                          ${index !== arr.length - 1 ? `
-                            <div class="col-12 col-md-1 arrows">
-                              <div class="text-center align-middle">
-                                <i class="fa-solid fa-right-long evolution-arrow d-none d-md-inline" style="color: ${typeColour}"></i>
-                                <i class="fa-solid fa-down-long evolution-arrow d-inline d-md-none" style="color: ${typeColour} !important"></i>
-                              </div>                            
-                            </div>
-                          ` : ''}
-                        `)
-                        .join('')}
-                      </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row d-flex align-items-center">
+              <div class="col-md-6">
+                ${pokemonStrengths.length > 1 ? 'Strengths' : 'Strength'}
+              </div>
+              <div class="col-md-6">
+                <div class="d-flex flex-wrap justify-content-center">
+                  ${pokemonStrengths.map((strength) => `
+                    <div class="icon ${strength} p-2" data-toggle="tooltip" data-placement="left" title="${capitalizeFirstLetter(strength)}">
+                        <img class="tooltip-type" src="assets/pokemon-type-icons/${strength}.svg"/>
                     </div>
+                  `).join('')}
                 </div>
               </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="col-md-12 col-lg-6 mb-5">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="form-group" style="padding:20px;">
+            <label class="form-label">HP</label>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.hp)}" style="width: ${calculateProgressBarWidth(pokemonStats.hp, maxStatValue)}%">${pokemonStats.hp}</div>
+            </div>
+
+            <label class="form-label">Attack</label>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.attack)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.attack, maxStatValue)}%;">${pokemonStats.attack}</div>
+            </div>
+
+            <label class="form-label">Defense</label>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.defense)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.defense, maxStatValue)}%">${pokemonStats.defense}</div>
+            </div>
+
+            <label class="form-label">Speed</label>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats.speed)}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats.speed, maxStatValue)}%">${pokemonStats.speed}</div>
+            </div>
+
+            <label class="form-label">Special Defense</label>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-defense"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-defense"], maxStatValue)}%">${pokemonStats["special-defense"]}</div>
+            </div>
+
+            <label class="form-label">Special Attack</label>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar ${getProgressBarColorByValue(pokemonStats["special-attack"])}" style="background-color:${typeColour}; width: ${calculateProgressBarWidth(pokemonStats["special-attack"], maxStatValue)}%">${pokemonStats["special-attack"]}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div class="col-md-12 mb-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                  <div class="row row-cols-1 row-cols-md-5 justify-content-center align-items-center">
+                  ${evolutionData.evolutionChain
+                    .map((evolution, index, arr) => `
+                      <div class="col-12 col-sm-12 col-md-3">
+                        <div class="card">
+                          <div class="text-center">
+                            <img style="max-width:250px; border-color: ${evolution.name === pokemon.name ? typeColour : 'gray'};" src="${evolution.sprite}" class="evolution-sprite" alt="...">
+                          </div>
+                          <span class="evolution-title">${capitalizeFirstLetter(evolution.name)}</span>
+                        </div>
+                      </div>
+                      ${index !== arr.length - 1 ? `
+                        <div class="col-12 col-md-1 arrows">
+                          <div class="text-center align-middle">
+                            <i class="fa-solid fa-right-long evolution-arrow d-none d-md-inline" style="color: ${typeColour}"></i>
+                            <i class="fa-solid fa-down-long evolution-arrow d-inline d-md-none" style="color: ${typeColour} !important"></i>
+                          </div>                            
+                        </div>
+                      ` : ''}
+                    `)
+                    .join('')}
+                  </div>
+                </div>
             </div>
           </div>
         </div>
