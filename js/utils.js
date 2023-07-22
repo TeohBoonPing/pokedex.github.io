@@ -243,7 +243,7 @@ export async function createPokemonDetailsElement(pokemon) {
               </div>
               <div class="col-md-6">
                 <div class="pokemon-gender d-flex flex-wrap justify-content-center">
-                  ${pokemonGenders.genderless ? `
+                  ${pokemonGenders.genders.genderless ? `
                   <span>
                     <i class="gender-icon fa-solid fa-genderless" style="color: white;"></i>
                     100%
