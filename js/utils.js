@@ -62,8 +62,12 @@ export function processPokemon(pokemon) {
   };
 }
 
+let searchTimeout;
+
 export function handleSearchInputChange(event) {
   const searchQuery = event.target.value.trim().toLowerCase();
+
+  clearTimeout(searchTimeout);
 
   if (searchQuery === "") {
     clearContainer(document.getElementById("pokemon-column"));
@@ -72,8 +76,11 @@ export function handleSearchInputChange(event) {
     return;
   }
 
-  fetchAndPopulatePokemon(1, limit, searchQuery);
+  searchTimeout = setTimeout(() => {
+    fetchAndPopulatePokemon(1, limit, searchQuery);
+  }, 500);
 }
+
 
 export function clearContainer(container) {
   container.innerHTML = '';
@@ -168,6 +175,18 @@ export function createPokemonElement(pokemon) {
         </div>
     </div>
   `;
+  return pokemonDiv;
+}
+
+export function pokemonNotFoundElement() {
+  const pokemonDiv = document.createElement("div");
+  pokemonDiv.className = "col-12";
+  pokemonDiv.innerHTML = ` <div class="shadow card">
+    <div class="text-center">
+          <img class="card-img-top sprites" src="assets/gengar.png">
+          <p class="pokemon-not-found-text">Oops, pokemon not found..</p>
+    </div>
+  </div>`
   return pokemonDiv;
 }
 

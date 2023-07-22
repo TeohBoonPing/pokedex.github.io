@@ -438,3 +438,8 @@ hr {
     font-size:22px;
     margin-bottom: 10px;
 }
+.pokemon-not-found-text {
+    font-family: 'Ubuntu';
+    color: white;
+    font-size: 20px;
+}
