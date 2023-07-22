@@ -23,12 +23,13 @@ async function fetchPokemonByName(name) {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
       
         if(!response.ok) {
-            redirectToPageNotFound();
+            return
         }
       
         return await response.json();
   
     } catch (error) {
+        redirectToPageNotFound();
         console.log("Failed to fetch pokemon, error:" + error)
         throw error;
     }
