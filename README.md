@@ -9,14 +9,17 @@ This is a simple Pokédex web application that utilizes the PokeAPI to display i
 ## Demo
 
 <div style="display: flex; flex-direction: row;" align="center">
-    <img src="assets/demo/pokedex_demo_mac.gif" width="550" /> 
+  <img src="assets/demo/pokedex_demo_iphone.gif" width="200" />
 </div>
 <br><br><br>
 <div style="display: flex; flex-direction: row;" align="center">
     <img src="assets/demo/pokedex_demo_ipad.gif" width="350" />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="assets/demo/pokedex_demo_iphone.gif" width="200" />
 </div>
+<br><br><br>
+<div style="display: flex; flex-direction: row;" align="center">
+  <img src="assets/demo/pokedex_demo_mac.gif" width="80%" />
+</div>
+
 
 ## Tools Used
 
